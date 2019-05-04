@@ -1,0 +1,33 @@
+{
+  "name": "maybe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Sergey Tatarintsev <sergey@tatarintsev.me> (https://github.com/SevInf)",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.12",
+    "jest": "^24.7.1",
+    "prettier": "^1.17.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
+  },
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": ["*.json"],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
+  }
+}
