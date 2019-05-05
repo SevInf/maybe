@@ -1,30 +1,30 @@
-type Required<T> = Exclude<T, null | undefined>;
-type RemoveMaybe<T> = T extends Maybe<infer Inner> ? Inner : T;
+export type Defined<T> = Exclude<T, null | undefined>;
+export type RemoveMaybe<T> = T extends Maybe<infer Inner> ? Inner : T;
 type MaybeOnce<T> = Maybe<RemoveMaybe<T>>;
-type MapCallback<T, U> = (arg: Required<T>) => U;
+type MapCallback<T, U> = (arg: Defined<T>) => U;
 
 export interface Maybe<T> {
     isNone(): boolean;
 
-    orElse(fallback: Required<T>): Required<T>;
-    orCall(getFallback: () => Required<T>): Required<T>;
-    orNull(): Required<T> | null;
-    orThrow(message?: string): Required<T>;
+    orElse(fallback: Defined<T>): Defined<T>;
+    orCall(getFallback: () => Defined<T>): Defined<T>;
+    orNull(): Defined<T> | null;
+    orThrow(message?: string): Defined<T>;
 
     map<U>(f: MapCallback<T, U>): MaybeOnce<U>;
-    get<K extends keyof Required<T>>(key: K): MaybeOnce<Required<T>[K]>;
+    get<K extends keyof Defined<T>>(key: K): MaybeOnce<Defined<T>[K]>;
 }
 
-const none: Maybe<any> = {
+export const none: Maybe<any> = {
     isNone() {
         return true;
     },
 
-    orElse(fallback: Required<any>): Required<any> {
+    orElse(fallback: Defined<any>): Defined<any> {
         return fallback;
     },
 
-    orCall(getFallback: () => Required<any>): Required<any> {
+    orCall(getFallback: () => Defined<any>): Defined<any> {
         return getFallback();
     },
 
@@ -46,25 +46,25 @@ const none: Maybe<any> = {
 };
 
 class Some<T> implements Maybe<T> {
-    constructor(private readonly value: Required<T>) {}
+    constructor(private readonly value: Defined<T>) {}
 
     isNone(): boolean {
         return false;
     }
 
-    orElse(): Required<T> {
+    orElse(): Defined<T> {
         return this.value;
     }
 
-    orCall(): Required<T> {
+    orCall(): Defined<T> {
         return this.value;
     }
 
-    orNull(): Required<T> | null {
+    orNull(): Defined<T> | null {
         return this.value;
     }
 
-    orThrow(): Required<T> {
+    orThrow(): Defined<T> {
         return this.value;
     }
 
@@ -72,7 +72,7 @@ class Some<T> implements Maybe<T> {
         return maybe(f(this.value));
     }
 
-    get<K extends keyof Required<T>>(key: K): MaybeOnce<Required<T>[K]> {
+    get<K extends keyof Defined<T>>(key: K): MaybeOnce<Defined<T>[K]> {
         return this.map(obj => obj[key]);
     }
 }
@@ -89,5 +89,12 @@ export function maybe<T>(value: T | null | undefined): MaybeOnce<T> {
         return none;
     }
 
-    return (new Some(value as Required<T>) as Maybe<T>) as MaybeOnce<T>;
+    return some(value) as MaybeOnce<T>;
+}
+
+export function some<T>(value: T): Maybe<T> {
+    if (value == null) {
+        throw new Error('Some expects non-null values');
+    }
+    return new Some(value as Defined<T>);
 }
