@@ -94,7 +94,7 @@ export function maybe<T>(value: T | null | undefined): MaybeOnce<T> {
 
 export function some<T>(value: T): Maybe<T> {
     if (value == null) {
-        throw new Error('Some expects non-null values');
+        throw new TypeError('some() does not accept null or undefined');
     }
     return new Some(value as Defined<T>);
 }

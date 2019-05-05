@@ -1,8 +1,26 @@
-import { maybe, isMaybe, Maybe } from '../maybe';
+import { maybe, some, isMaybe, Maybe } from '../maybe';
 
 describe('maybe', () => {
     it('prevents double nesting', () => {
         expect(maybe(maybe('foo')).orThrow()).toBe('foo');
+    });
+
+    describe('some', () => {
+        it('throws on null', () => {
+            expect(() => some(null)).toThrow(
+                'some() does not accept null or undefined'
+            );
+        });
+
+        it('throws on undefined', () => {
+            expect(() => some(undefined)).toThrow(
+                'some() does not accept null or undefined'
+            );
+        });
+
+        it('does not throw on proper value', () => {
+            expect(() => some('value')).not.toThrow();
+        });
     });
     describe('isMaybe', () => {
         it('is true for maybe(null)', () => {
