@@ -12,7 +12,7 @@ Main idea behind this: we put all potentially `null`/`undefined` values in a spe
 Takes a value which could potentially be `null` or `undefined` and returns a safe `Maybe` wrapper. These are all valid `maybe` calls:
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 maybe('foo');
 maybe(false);
@@ -29,7 +29,7 @@ Prevents double-wrapping the value. `maybe(foo)` and `maybe(maybe(foo))` return 
 Takes non-`null`/`undefined` value and returns a `Maybe` wrapper. These are all valid `some` calls:
 
 ```js
-import { some } from 'maybe';
+import { some } from '@sevinf/maybe';
 
 some('foo');
 some(false);
@@ -40,7 +40,7 @@ some(() => alert('Hello!'));
 These calls will throw exception in runtime:
 
 ```js
-import { some } from 'maybe';
+import { some } from '@sevinf/maybe';
 
 some(null);
 some(undefined);
@@ -63,7 +63,7 @@ This a main method for manipulating the data inside `Maybe` box. If wrapped valu
 Couple of examples:
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 const five = maybe(5);
 const ten = five.map(x => x + 5); // ten now holds number 10
@@ -80,7 +80,7 @@ const renderFive = nothing.map(x => <div>{x}</div>); // renderFive holds nothing
 You can chain `.map` calls together:
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 function addFiveShoutAndRender(maybeValue) {
   return maybeValue
@@ -96,7 +96,7 @@ addFiveShoutAndRender(maybe(null)); // returns maybe box, holding nothing
 You can return `Maybe` values from the `fn` callback. In that case, resulting value will be flattened. You will never have `Maybe` value, wrapped in another `Maybe`:
 
 ```js
-import { none, some } from 'maybe';
+import { none, some } from '@sevinf/maybe';
 
 function filterLow(x) {
   if (x > 100) {
@@ -118,7 +118,7 @@ addFiveShoutAndRender(maybe(5)); // returns maybe box, holding nothing
 Getting property of the object or array element is needed often enough so we provide a helper method for this. Functionally equivalent to `.map(value => value[key])`, but nicer to use in case of deeply nested data (for example, GraphQL data):
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 function hasMore(maybeAccount) {
   return maybeAccount
@@ -161,7 +161,7 @@ hasMore(
 Also works with arrays:
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 const safeArray = maybe(['foo', 'bar']);
 safeArray.get(0); // returns Maybe<foo>
@@ -173,7 +173,7 @@ safeArray.get(100); // returns maybe, holding nothing
 Returns `true` if box holds nothing:
 
 ```js
-import { maybe, none } from 'maybe';
+import { maybe, none } from '@sevinf/maybe';
 
 none.isNone(); // true
 maybe(null).isNone(); // true
@@ -193,7 +193,7 @@ So far, we learned how to create a `Maybe` value and learned to operate on it in
 Returns boxed value if it is set and provided `fallback` value otherwise:
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 maybe(5).orElse(0); // returns 5
 maybe(null).orElse(0); // returns 0
@@ -225,7 +225,7 @@ Returns boxed value if it is set and `null` otherwise. Use with caution: you are
 Returns boxed value if it is set and throws `TypeError` otherwise. Use only when you are absolutely sure that there is a value inside `Maybe`.
 
 ```js
-import { maybe } from 'maybe';
+import { maybe } from '@sevinf/maybe';
 
 maybe(5).orThrow(); // returns 5
 maybe(null).orThrow(); // throws TypeError with default message
@@ -241,7 +241,7 @@ Library provides a number of helper functions for common scenarios:
 Returns the first item in `items`, which holds any value. Returns `none` if all `items` are `none` or the list is empty. Useful for the cases of multiple different fallbacks. Suppose we have an account. We want to display account's nickname, full name or login, whichever is set. If nothing is set, we want to fallback to default message:
 
 ```js
-import { first } from 'maybe';
+import { first } from '@sevinf/maybe';
 
 function getDisplayName(maybeAccount) {
   return first([
@@ -257,7 +257,7 @@ function getDisplayName(maybeAccount) {
 Accepts array of `Maybe` values. If every value in array holds something, return `Maybe`, holding the array of unboxed values. If at least one value is `none`, returns `none`. Useful when you have several required fields and want to do something only when they are all set. For example, you want display account info only when account has both full name and profile picture. If any of those fields are missing, you want to display nothing at all:
 
 ```js
-import { all } from 'maybe';
+import { all } from '@sevinf/maybe';
 
 function verifyAccount(maybeAccount) {
   return all([
@@ -275,7 +275,7 @@ function verifyAccount(maybeAccount) {
 Equivalent to `all`, only operates on objects properties instead of array items.
 
 ```js
-import { allProperties } from 'maybe';
+import { allProperties } from '@sevinf/maybe';
 
 function verifyAccount(maybeAccount) {
   return allProperties({
@@ -291,7 +291,7 @@ function verifyAccount(maybeAccount) {
 You can also mix `Maybe` and non-`Maybe` properties:
 
 ```js
-import { allProperties } from 'maybe';
+import { allProperties } from '@sevinf/maybe';
 
 function verifyAccount(maybeAccount) {
   return allProperties({
@@ -309,7 +309,7 @@ function verifyAccount(maybeAccount) {
 Accepts array of `Maybe` values. Filters out all `none` values and unboxes the rest. Useful for filtering out unwanted items from the lists. Suppose, we have an array of accounts and we want to have only those items, which pass `verifyAccount` check from previous example:
 
 ```js
-import { compact } from 'maybe';
+import { compact } from '@sevinf/maybe';
 
 function getValidAccounts(accountList) {
   return compact(accountList.map(verifyAccount));

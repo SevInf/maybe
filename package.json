@@ -1,5 +1,5 @@
 {
-  "name": "maybe",
+  "name": "@sevinf/maybe",
   "version": "0.5.0",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
