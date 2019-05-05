@@ -14,7 +14,7 @@
     "test": "jest",
     "build:esm": "tsc --module es2015 --outDir dist/esm --declaration --declarationDir dist/types",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "build": "run-s build",
+    "build": "run-s build:*",
     "prettier": "prettier '**/*.{ts,json,md}'",
     "format": "yarn prettier --write",
     "lint:eslint": "eslint . --ext ts",
