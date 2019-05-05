@@ -64,8 +64,8 @@ function all<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
         Maybe<T10>
     ]
 ): Maybe<[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10]>;
-function all<T>(maybies: Array<Maybe<T>>): Maybe<T[]>;
-function all(maybies: Array<Maybe<unknown>>): Maybe<unknown[]> {
+function all<T>(maybies: Maybe<T>[]): Maybe<T[]>;
+function all(maybies: Maybe<unknown>[]): Maybe<unknown[]> {
     const result: unknown[] = [];
     for (const item of maybies) {
         if (item.isNone()) {

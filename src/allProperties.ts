@@ -7,7 +7,7 @@ type UnwrapMaybeProperties<T extends {}> = {
 export function allProperties<T extends {}>(
     object: T
 ): Maybe<UnwrapMaybeProperties<T>> {
-    const result = {} as UnwrapMaybeProperties<T>;
+    const result: UnwrapMaybeProperties<T> = {} as UnwrapMaybeProperties<T>;
     const keys = Object.keys(object) as (keyof T)[];
 
     for (const key of keys) {

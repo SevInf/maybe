@@ -1,5 +1,5 @@
 import { Maybe } from './maybe';
-export function compact<T>(items: Array<Maybe<T>>): T[] {
+export function compact<T>(items: Maybe<T>[]): T[] {
     const result = [] as T[];
     for (const item of items) {
         const unpacked = item.orNull();
