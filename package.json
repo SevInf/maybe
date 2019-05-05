@@ -2,7 +2,9 @@
   "name": "maybe",
   "version": "0.5.0",
   "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
+  "sideEffects": false,
   "author": "Sergey Tatarintsev <sergey@tatarintsev.me> (https://github.com/SevInf)",
   "license": "MIT",
   "files": [
@@ -10,14 +12,16 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "tsc --build",
+    "build:esm": "tsc --module es2015 --outDir dist/esm --declaration --declarationDir dist/types",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build": "run-s build",
     "prettier": "prettier '**/*.{ts,json,md}'",
     "format": "yarn prettier --write",
     "lint:eslint": "eslint . --ext ts",
     "lint:prettier": "yarn prettier --check",
     "lint": "run-s lint:*",
     "tsc:check": "tsc --noEmit",
-    "prerelese": "run-s clean test build",
+    "prerelease": "run-s clean test build",
     "release": "standard-version",
     "clean": "rimraf dist"
   },
