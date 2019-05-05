@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
+    "lib": ["es2015"],
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "lib"
+    "outDir": "dist/cjs",
+    "declaration": true,
+    "declarationDir": "dist/types"
   },
-  "exclude": ["**/__tests__/**"]
+  "exclude": ["**/__tests__/**", "dist/**"]
 }
